@@ -1,27 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="scripts.js"></script>
 <script src="http://simplewebrtc.com/latest.js"></script>
-</head>
-
-<body>
-
-<div id="localVideo" muted></div>
-<div id="remoteVideo"></div>
-
-
 <script>
-var webrtc = new SimpleWebRTC({
-	localVideoEl: 'localVideo',
-	remoteVideosEl: 'remoteVideo',
-	autoRequestMedia: true
-});
 
-webrtc.on('readyToCall', function () {
-	webrtc.joinRoom('My room name');
-});
+window.onload = function(e){ 
+    
+	var cookie = getCookie("login");
+	if(cookie == "1")
+	{
+	
+			var outputDiv = document.getElementById('output');
+	
+			var div1 = document.createElement("div");
+			div1.id = "localVideo";
+			div1.muted = true;
+			outputDiv.appendChild(div1);
+			
+			var div2 = document.createElement("div");
+			div2.id = "remoteVideo";
+			outputDiv.appendChild(div2);
+		
+			var webrtc = new SimpleWebRTC({
+			localVideoEl: 'localVideo',
+			remoteVideosEl: 'remoteVideo',
+			autoRequestMedia: true
+		});
+
+		webrtc.on('readyToCall', function () {
+			webrtc.joinRoom('Global room');
+		});
+	}
+	else 
+		window.location = "http://192.168.1.2:120/TIP/start.php";
+	
+};
 </script>
-
+</head>
+<body>
+	<center><div id="output" class="out"></div></center>
 </body>
-
 </html>
