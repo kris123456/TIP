@@ -1,15 +1,36 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<script src="scripts.js"></script>
-<script src="http://simplewebrtc.com/latest.js"></script>
+<title>Wideokonferencja TIP - pokój globalny</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link type="text/css" rel="stylesheet" href="http://127.0.0.1/tip/css/styleroom.css" />
+<link rel="stylesheet" href="http://127.0.0.1/tip/css/bootstrap.min.css">
+<script src="http://127.0.0.1/tip/js/jquery.min.js"></script>
+<script src="http://127.0.0.1/tip/js/bootstrap.min.js"></script>
+<script src="http://127.0.0.1/tip/scripts.js"></script>
+<script src="http://127.0.0.1/tip/js/latest.js"></script>
+<script type="text/javascript" src="http://127.0.0.1/tip/js/jquery.min.js"></script>
+
 <script>
 
 window.onload = function(e){ 
-    
-	var cookie = getCookie("login");
-	if(cookie == "1")
+
+function hashCode(s){for(var h=0,i=0;i<s.length;h&=h){h=31*h+s.charCodeAt(i++)}return h}
+
+var valueCookie = getCookie("PHPSESSID");
+
+var valueCookie2 = getCookie("sessionUser");
+var valueCookie3 = getCookie("sessionCode");
+
+	if(valueCookie == valueCookie2 && valueCookie3 == hashCode(valueCookie2 + "login"))
 	{
+			var frameElement = document.getElementById("frameChat");
+			frameElement.style.visibility = "visible";
+			
+			var buttonLogout = document.getElementById("buttonLogout");
+			buttonLogout.style.visibility = "visible";
 	
 			var outputDiv = document.getElementById('output');
 	
@@ -31,14 +52,27 @@ window.onload = function(e){
 		webrtc.on('readyToCall', function () {
 			webrtc.joinRoom('Global room');
 		});
+			
+		
 	}
-	else 
-		window.location = "http://192.168.1.2:120/TIP/start.php";
+	else
+	{
+		window.location = "http://127.0.0.1/tip/start.php";
+	}	
 	
 };
+
 </script>
 </head>
 <body>
 	<center><div id="output" class="out"></div></center>
+	<iframe id="frameChat" height="500" width="700" src="http://127.0.0.1/tip/chat.php" style="visibility:hidden;"></iframe> 
+        <div id="buttonLogout"  style="visibility:hidden;"><form method="post" action="http://127.0.0.1/tip/logout.php" class="btn btn-info btn-lg" >
+	<button type="submit" name="logout" class="btn btn-info btn-lg">
+                  &#8689 Log out
+        </button>   		
+		</form>    
+		</div>
+		<a href="http://127.0.0.1/tip/userpage.php" class="btn btn-info btn-lg">&#8635;Powrót na stronę główną</a>  
 </body>
 </html>
